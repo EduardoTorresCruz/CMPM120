@@ -1,0 +1,11 @@
+Key requirements for this project:
+- **3+ scenes**:
+- **2+ audio assets**:
+- **2+ image assets**: 
+    - TheNarrowRoadLogo.png(Game Title) - An image png created in Adobe Illustrator. The text is one built in Illustrator with some gradient behind it, then some manipulation of shapes created the road and crown
+    - LuciousLightLogo.png(Studio Logo) - An image png created in Adobe Illustrator. The text is one built in Illustrator with some slight modifications such as border, opacity, etc which is combined with a simple light bulb for the i in "light" created with geometric shapes
+- **2+ geometric shapes**:
+- **1+ logotype**:
+- **1+ multi-line text**:
+- **1+ fading animation**:
+- **1+ object motion animation**:
