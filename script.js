@@ -12,8 +12,10 @@ class StudioScene extends Phaser.Scene {
     create(){
         this.graphics = this.add.graphics();
 
-        let fullscreen_button = this.add.img(400, 0, 'fullscreen_img',).setInteractive();
- 
+        // add fullscreen button
+        let fullscreen_button = this.add.image(475, 25, 'fullscreen_img',).setInteractive();
+        fullscreen_button.setScale(0.1) // resize to 10% of original size
+
         fullscreen_button.on('pointerup', function(){
             if(!this.scale.isFullscreen){
                 this.scale.startFullscreen();
