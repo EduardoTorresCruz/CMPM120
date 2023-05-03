@@ -8,9 +8,17 @@ class StudioScene extends Phaser.Scene {
         this.load.path = './assets/';
         this.load.image('studio_logo', 'LuciousLightLogo.png');
         this.load.image('fullscreen_img', 'fullscreen.png');
+        this.load.audio('chime', 'ChimeSFX.m4a');
+        this.load.audio('warp', 'WarpSFX.m4a');
     }
     create(){
         this.graphics = this.add.graphics();
+
+        // create chime audio
+        let chime = this.sound.add('chime', {volume: 0.4}, {loop: false});
+
+        // create chime audio
+        let warp = this.sound.add('warp', {volume: 0.2}, {loop: false});
 
         // add fullscreen button
         let fullscreen_img = this.add.image(475, 25, 'fullscreen_img',).setInteractive();
@@ -62,6 +70,25 @@ class StudioScene extends Phaser.Scene {
                 ease: 'Bounce',
                 repeat: 0,
                 });
+
+                // play chime
+                chime.play();
+
+                // have chime drown out
+                this.tweens.add({
+                    targets: chime,
+                    volume: 0,
+                    duration: 1500,
+                    repeat: 0,
+                    });
+            },
+            loop: false,
+        });
+
+        this.time.addEvent({
+            delay: 7000,
+            callback: ()=>{
+                warp.play();
             },
             loop: false,
         });
@@ -75,6 +102,54 @@ class StudioScene extends Phaser.Scene {
             ease: 'Linear',
             repeat: 0,
         });
+
+        // Go to game scene after all that needs to occur in this studio scene(8 seconds)
+        this.time.delayedCall(8000, () => {
+            this.scene.start('game_scene');
+        })
+    }
+    update(){
+
+    }
+}
+
+class GameScene extends Phaser.Scene {
+    // Gives scene unique label
+    constructor(){
+        super('game_scene');
+    }
+    preload(){
+        this.load.path = './assets/';
+        this.load.image('fullscreen_img', 'fullscreen.png');
+        this.load.image('background_img', 'MountainsAtNight.png');
+    }
+    create(){
+        this.graphics = this.add.graphics();
+
+        // add background
+        let background_img = this.add.image(300, 300, 'background_img',);
+        background_img.setScale(0.25); // resize to 33% of original size
+
+        // add fullscreen button
+        let fullscreen_img = this.add.image(475, 25, 'fullscreen_img',).setInteractive();
+        fullscreen_img.setScale(0.1); // resize to 10% of original size
+        fullscreen_img.alpha = 0.5;
+
+        // functionality of the fullscreen button
+        fullscreen_img.on('pointerup', function(){
+            if(!this.scale.isFullscreen){
+                this.scale.startFullscreen();
+            }
+        }, this);
+
+        this.tweens.add({
+            targets: background_img,
+            duration: 4000,
+            x: 130,
+            ease: 'Linear',
+            repeat: 0,
+        });
+
     }
     update(){
 
@@ -108,7 +183,7 @@ let config = {
         height: 500,
     },
     backgroundColor: 0x000000,
-    scene: [StudioScene, TitleScene],
+    scene: [StudioScene, GameScene, TitleScene],
 }
 
 let game = new Phaser.Game(config);
